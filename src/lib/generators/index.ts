@@ -1,4 +1,4 @@
-import { PerlinNoise } from "./perlin"
+import { myPerlin } from "./perlin";
 import type { GeneratorInstance, GenSetting } from "./types";
 
 
@@ -8,9 +8,32 @@ export interface GeneratorConstructor {
 }
 
 export const generators: GeneratorEntry[] = [
+    /* {
+        name: "Perlin Noise (AI)",
+        class: PerlinNoise,
+        desc: "Generates Perlin noise for terrain generation.",
+        settings: [
+            {
+                name: 'Seed',
+                settingType: 'number',
+                setting: {
+                    default: 985433,
+                    integerOnly: true,
+                    minimum: 0,
+                    maximum: 99999999999,
+                    value: Math.floor(Math.random() * 99999999999),
+                }
+            }
+        ],
+        scalingAndThreshold: {
+            scaling: 5,
+            threshold: 0.53,
+            customisable: true
+        }
+    }, */
     {
         name: "Perlin Noise",
-        class: PerlinNoise,
+        class: myPerlin,
         desc: "Generates Perlin noise for terrain generation.",
         settings: [
             {

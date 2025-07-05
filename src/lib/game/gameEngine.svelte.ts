@@ -1,5 +1,4 @@
 import type { GeneratorInstance } from "$lib/generators/types";
-import { PerlinNoise } from "$lib/generators/perlin";
 
 
 type vector2 = { x: number, y: number }
@@ -129,7 +128,7 @@ export class InfiniteClimbGame {
 
     public checkGrounded() {
         const blockToCheck = { x: this.playerCoordinates.x, y: Math.floor(this.playerCoordinates.y - 1) }
-        const otherBlockToCheck = { x: this.playerCoordinates.x + 1, y: Math.floor(this.playerCoordinates.y - 1) }
+        const otherBlockToCheck = { x: Math.ceil(this.playerCoordinates.x), y: Math.floor(this.playerCoordinates.y - 1) }
 
         if (this.getBlock(blockToCheck) || this.getBlock(otherBlockToCheck)) {
             this.isGrounded = true
@@ -243,13 +242,8 @@ export class InfiniteClimbGame {
     private getBlock(coordinates: vector2) {
 
 
-        if (coordinates.y < 2 || coordinates.x < 0) {
-            if (coordinates.x <= 0) {
-                ////console.log('called with', coordinates)
-            }
-            return true
-        }
-        else if (this.generator.getHeight(Math.floor(coordinates.x * this.scalingFactor), Math.floor(coordinates.y * this.scalingFactor)) > this.threshold) {
+        
+        if (this.generator.getHeight(Math.floor(coordinates.x * this.scalingFactor), Math.floor(coordinates.y * this.scalingFactor)) > this.threshold) {
             return true
         }
         else return false
@@ -287,9 +281,8 @@ export class InfiniteClimbGame {
                 this.velocity.y = 0
             }
         }
-        if (this.playerCoordinates.y < 2) {
-            this.playerCoordinates.y = 2
-        }
+      
+        
         this.checkGrounded()
         if (this.isGrounded) {
             this.playerCoordinates = { x: this.playerCoordinates.x, y: Math.floor(this.playerCoordinates.y) }

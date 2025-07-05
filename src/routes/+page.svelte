@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { PerlinNoise } from '$lib/generators/perlin';
 	import { InfiniteClimbGame } from '$lib/game/gameEngine.svelte';
 	let canvas: HTMLCanvasElement;
     let loading: boolean = false;
@@ -33,9 +32,12 @@
 
 	function newGame() {
 		game?.stopGame();
-		currentGenerator = new PerlinNoise(currentGeneratorEntry.settings);
-		game = new InfiniteClimbGame(canvas, document, currentGenerator, scalingFactor, threshold);
-		game.start();
+
+		currentGenerator = new currentGeneratorEntry.class(currentGeneratorEntry.settings);
+		if (currentGenerator) {
+			game = new InfiniteClimbGame(canvas, document, currentGenerator, scalingFactor, threshold);
+			game.start();
+		}
 	}
 </script>
 
