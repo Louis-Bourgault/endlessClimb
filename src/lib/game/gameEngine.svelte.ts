@@ -1,4 +1,5 @@
-import type { GeneratorInstance } from "$lib/generators/types";
+import { ColourBackground } from "$lib/backgrounds/colourBackground";
+import type { BackgroundInstance, GeneratorInstance } from "$lib/types";
 
 
 type vector2 = { x: number, y: number }
@@ -36,9 +37,20 @@ export class InfiniteClimbGame {
 
     public gameActive = true
     public lastFrame: number
+    public background: BackgroundInstance
+
+    public changeBackground(bg: BackgroundInstance) {
+        this.background = bg
+    }
 
 
-    constructor(canvas: HTMLCanvasElement, document: Document, generator: GeneratorInstance, scalingFactor: number, threshold: number) {
+    constructor(canvas: HTMLCanvasElement, document: Document, generator: GeneratorInstance, scalingFactor: number, threshold: number, bg: BackgroundInstance | null) {
+        if (bg) {
+            this.background = bg
+        }
+        else {
+            this.background = new ColourBackground([])
+        }
         this.htmlCanvas = canvas;
         if (!canvas) {
             throw new Error('no canvas passed to function')
@@ -152,6 +164,7 @@ export class InfiniteClimbGame {
 
     public render() {
         let imageData = this.ctx.createImageData(this.viewportPixelResolution.x, this.viewportPixelResolution.y)
+        this.background.renderBackground(imageData)
         
         //pixel align it so that its not so jumpy
         const pixelAlignedViewportBottomLeft = {

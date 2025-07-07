@@ -1,7 +1,7 @@
 //NEW VERSION WRITTEN WHOLLY WITHOUT AI
 
 import { seededRandom } from "./utils";
-import { type GeneratorInstance, type GenSetting, type numberGenSetting } from './types';
+import { type GeneratorInstance, type Setting, type numberSetting } from '../types';
 
 type vector2 = { x: number, y: number }
 type dotProductChunk = Array<Array<vector2>>
@@ -17,7 +17,7 @@ export class myPerlin implements GeneratorInstance {
     private cache = new Map<vector2, number>()
 
 
-    constructor(settings: Array<GenSetting>) {
+    constructor(settings: Array<Setting>) {
         this.seed = Number(settings.find(s => s.name === 'Seed' && s.settingType === 'number')?.setting.value || 0);
     }
     public getHeight(x: number, y: number): number {
